@@ -16,7 +16,7 @@ ENV TERM=xterm
 RUN dnf -y update && \
     dnf -y install \
     # Development basics
-    bash-completion git curl wget which nano htop tar xz \
+    bash-completion git curl wget which nano htop tar xz vim ping fzf \
     # GUI/Wayland/Electron dependencies (FIXED NAMES)
     libwayland-client libwayland-cursor libxkbcommon dbus-glib dbus-x11 \
     libX11 libX11-xcb libXcomposite libXdamage libXext libXfixes libXrandr libxcb \
@@ -29,7 +29,8 @@ RUN dnf -y update && \
     usbutils bluez \
     # Process management & Sudo
     procps-ng sudo \
-    && dnf clean all
+    && dnf clean all \
+    && echo 'eval "$(fzf --bash)"' >> ~/.bashrc
 
 # 2. Install Visual Studio Code
 # Import the Microsoft GPG key, add the repository, and install 'code'

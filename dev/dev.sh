@@ -33,7 +33,7 @@ podman run -d \
   -e DISPLAY=$DISPLAY \
   -e WAYLAND_DISPLAY=wayland-0 \
   -e XDG_RUNTIME_DIR=/tmp \
-  -e PS1='\[\033[01;32m\][\u@\h \W]\$ \[\033[00m\]' \
+  -e PS1='\[\033[01;35m\]📦 [DEV] \w \$ \[\033[00m\]' \
   -e TERM=xterm-256color \
   --dns 8.8.8.8 \
   --dns 1.1.1.1 \
