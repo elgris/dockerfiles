@@ -27,10 +27,17 @@ RUN dnf -y update && \
     mesa-dri-drivers mesa-vulkan-drivers mesa-libEGL mesa-libGL vulkan-loader glx-utils \
     # Device interaction tools
     usbutils bluez \
+    libatomic npm \
+    # Suggested by https://developers.home-assistant.io/docs/development_environment/#developing-on-fedora
+    python3-pip python3-devel python3-virtualenv autoconf openssl-devel libxml2-devel libxslt-devel libjpeg-turbo-devel libffi-devel systemd-devel zlib-devel pkgconf-pkg-config libavformat-free-devel libavcodec-free-devel libavdevice-free-devel libavutil-free-devel libswscale-free-devel ffmpeg-free-devel libavfilter-free-devel ffmpeg-free gcc gcc-c++ cmake \
+    ip \
+    fzf \
+    vim \
+    # Enables copying
+    wl-clipboard \
     # Process management & Sudo
     procps-ng sudo \
-    && dnf clean all \
-    && echo 'eval "$(fzf --bash)"' >> ~/.bashrc
+    && dnf clean all
 
 # 2. Install Visual Studio Code
 # Import the Microsoft GPG key, add the repository, and install 'code'
@@ -57,6 +64,8 @@ RUN groupadd --gid $USER_GID $USERNAME && \
 RUN mkdir -p /workspace && \
     chown $USERNAME:$USERNAME /workspace
 
+RUN echo 'eval "$(fzf --bash)"' >> ~/.bashrc
+
 # 5. Set environment variables for better GUI app behavior
 # Tell apps to favor Wayland over X11 if possible
 ENV GDK_BACKEND=wayland,x11
@@ -69,3 +78,5 @@ USER $USERNAME
 WORKDIR /workspace
 
 CMD ["/bin/bash"]
+
+# podman build --build-arg USERNAME=$(whoami) --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) -t dev-image .

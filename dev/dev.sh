@@ -1,7 +1,7 @@
 #!/bin/bash
 
-CONTAINER_NAME="dev"
-IMAGE_NAME="dev:latest"
+CONTAINER_NAME="dev-container"
+IMAGE_NAME="dev-image:latest"
 
 # 1. Check if the container is already running
 if [ "$(podman inspect -f '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null)" == "true" ]; then
@@ -27,7 +27,9 @@ podman run -d \
   --name $CONTAINER_NAME \
   --userns=keep-id \
   --security-opt label=disable \
-  -v "$HOME/workspace:/workspace:Z" \
+  --net dev-network \
+  -p 8100-8200:8100-8200 \
+  -v "$HOME/_workspace:/workspace:Z" \
   -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
   -v "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/wayland-0:ro" \
   -e DISPLAY=$DISPLAY \
@@ -38,13 +40,13 @@ podman run -d \
   --dns 8.8.8.8 \
   --dns 1.1.1.1 \
   --cap-add=NET_RAW \
+  --cap-add=NET_ADMIN \
   --device /dev/dri \
   --device /dev/kfd \
   --device /dev/bus/usb \
   -v /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
+  -v /run/dbus:/run/dbus:ro \
   --group-add keep-groups \
-  --network bridge \
-  --network dev_network \
   $IMAGE_NAME \
   sleep infinity  # This keeps the container alive in the background
 
