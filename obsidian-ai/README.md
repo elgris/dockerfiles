@@ -10,7 +10,7 @@ Run:
 ```bash
 podman run -it --name obsidian-ai-container \
   --net dev-network \
-  -v ~/.config/obsidian-ai/agent/:/home/pi/.pi/agent/:Z,U \
-  -v ~/Documents/Obsidian/:/workspace:ro \
+  -v ~/.config/obsidian-ai/agent/:/home/pi/.pi/agent/:U,Z \
+  -v ~/Documents/Obsidian/:/workspace:ro,Z \
   obsidian-ai-image
 ```
