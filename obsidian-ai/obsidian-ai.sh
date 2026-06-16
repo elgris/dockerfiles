@@ -4,7 +4,7 @@
 CONTAINER_NAME="obsidian-ai-container"
 IMAGE_NAME="obsidian-ai-image"
 NETWORK_NAME="dev-network"
-CONTAINER_USER="pi" # Must match the user inside the container
+CONTAINER_USER="node" # Must match the user inside the container
 
 # 1. Create and launch the container if it doesn't exist yet
 if ! podman container exists "$CONTAINER_NAME"; then
