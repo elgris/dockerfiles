@@ -7,16 +7,14 @@ ARG USER_GID=$USER_UID
 RUN addgroup -g $USER_GID $USERNAME && \
     adduser -u $USER_UID -G $USERNAME -s /bin/bash -D $USERNAME
 
-RUN apk add --no-cache bash && \
-  npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+RUN npm install -g @earendil-works/pi-coding-agent
 
-RUN mkdir -p /home/$USERNAME/.pi/agent/skills \
-            /home/$USERNAME/.agents/skills \
-            /workspace && \
-    chown -R $USERNAME:node /home/$USERNAME /workspace
+# Set up the internal directories
+RUN mkdir -p /home/${USERNAME}/.pi /workspace && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.pi /workspace
 
-USER $USERNAME
-
+USER ${USERNAME}
 WORKDIR /workspace
 
-ENTRYPOINT ["pi"]
+# Keep the container alive indefinitely in the background
+CMD ["sleep", "infinity"]
